@@ -2,21 +2,18 @@ const express = require('express');
 const mysql = require('mysql');
 const dotenv = require('dotenv');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 dotenv.config({ path: './.env' });
 
 // DB connection
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DATABASE
-});
+const db = require('./db/db.js');
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+app.use(cookieParser());
 
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
